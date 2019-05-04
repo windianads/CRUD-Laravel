@@ -27,7 +27,7 @@ class BukuController extends Controller
      */
     public function create()
     {
-        //
+        return view('create'); //wes ngene tok  men bisa tampil filecreate.e ya cek jal 
     }
 
     /**
@@ -38,7 +38,19 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // kie gunane nggo validasi, men form.e kudu diisi, nek biasane nang biodata diri ana bintang abange kae sing wajib diisi (y)
+        $request -> validate([
+            'nama_buku' => 'required',
+            'harga' => 'required|integer' //kie validasi men harga kudu diisi + harga kudu bentuke integer (y)
+        ]);
+
+        //membuat variable untuk membuat data baru, new book berasal dari model yang didefinisikan diatas
+        $book = new book([ 
+            'nama_buku' => $request->get('nama_buku'), // kuwe ngono nama_column nang database dicocokna karo nama nang form sing mau kan mau wes gawe name="blabalbla", yg nama buku ?yoy  trus sing nama_column deleng nang database
+            'harga' => $request->get('harga') 
+     ]);
+        $book->save(); //untuk nyimpen ke database
+        return redirect('/buku'); //wes jal coba ngisi data trus dicek nang database datane kesimpen ora
     }
 
     /**
@@ -60,7 +72,8 @@ class BukuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = book::find($id);
+        return view('edit', compact('post'));
     }
 
     /**
@@ -72,7 +85,20 @@ class BukuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        // oh iya validasi dulu
+
+            $request -> validate([
+            'nama_buku' => 'required',
+            'harga' => 'required|integer'
+            ]); //asem kebalik -_- apa
+
+            $post = book::find($id);
+            $post->nama_buku = $request->get('nama_buku');
+            $post->harga = $request->get('harga');
+            $post->save();
+            return redirect('/buku');
+            // doneee 
     }
 
     /**
