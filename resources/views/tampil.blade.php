@@ -12,7 +12,6 @@
 		</tr>
 		@foreach($books as $book)
 		<tr>
-			<!-- ayou yutuban lagi gan -->
 			<td>{{$book->id}}</td>
 			<td>{{$book->nama_buku}}</td> 
 			<td>{{$book->harga}}</td>
